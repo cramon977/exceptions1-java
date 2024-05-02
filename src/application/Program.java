@@ -37,7 +37,6 @@ public class Program {
 			if (err != null) {
 				System.out.println(err);
 			} else {
-				reserv.updateDates(in, out);
 				System.out.println("Reservation: " + reserv);
 
 			}
