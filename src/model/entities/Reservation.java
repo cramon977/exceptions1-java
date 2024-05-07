@@ -10,20 +10,22 @@ public class Reservation {
 	private Integer roomNumber;
 	private Date checkIn;
 	private Date checkOut;
-	
-	private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");	
+
+	private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
 	public Reservation() {
-		
+
 	}
 
-	public Reservation(Integer roomNumber, Date checkin, Date checkout) throws DomainException {
-		if(checkIn.after(checkOut)) {
-			throw new DomainException("Error in reservation: Check-out date must be after check-in date!");
-		}
-		
+	public Reservation(Integer roomNumber, Date checkin, Date checkout) {
+
 		this.roomNumber = roomNumber;
 		this.checkIn = checkin;
 		this.checkOut = checkout;
+		if (checkIn.after(checkOut)) {
+			throw new DomainException("Check-out date must be after check-in date!");
+		}
+
 	}
 
 	public Integer getRoomNumber() {
@@ -38,7 +40,6 @@ public class Reservation {
 		return checkIn;
 	}
 
-
 	public Date getCheckout() {
 		return checkOut;
 	}
@@ -47,35 +48,27 @@ public class Reservation {
 		long diff = checkOut.getTime() - checkIn.getTime();
 		return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
 	}
-	
-	public void updateDates(Date checkIn, Date checkOut) throws DomainException {
-		
-		Date now = new Date();;
-		if(checkIn.before(now) || checkOut.before(now)) {
-			throw new DomainException ("Error in reservation: Reservation dates for update must be future dates");
+
+	public void updateDates(Date checkIn, Date checkOut) {
+
+		Date now = new Date();
+		;
+		if (checkIn.before(now) || checkOut.before(now)) {
+			throw new DomainException(" Reservation dates for update must be future dates");
+		} else if (checkIn.after(checkOut)) {
+			throw new DomainException(" Check-out date must be after check-in date!");
 		}
-		else if(checkIn.after(checkOut)) {
-			throw new DomainException("Error in reservation: Check-out date must be after check-in date!");
-		}
-		
+
 		this.checkIn = checkIn;
 		this.checkOut = checkOut;
-		
+
 	}
-	
+
 	@Override
 	public String toString() {
-		return "Room " 
-				+ roomNumber
-				+ ", Check-in: "
-				+ sdf.format(checkIn)
-				+ ", Checkout: "
-				+ sdf.format(checkOut)
-				+ ", "
-				+ duration()
-				+ " nights.";
-				
+		return "Room " + roomNumber + ", Check-in: " + sdf.format(checkIn) + ", Checkout: " + sdf.format(checkOut)
+				+ ", " + duration() + " nights.";
+
 	}
-	
-	
+
 }
